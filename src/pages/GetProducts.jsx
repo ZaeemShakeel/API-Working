@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function GetProducts() {
   const [getData, setGetData] = useState(null);
@@ -11,11 +12,7 @@ function GetProducts() {
     try {
       const res = await fetch("https://fakestoreapi.com/products");
       const data = await res.json();
-      //   console.log(data);
       setGetData(data);
-      console.log(data, "Datasd");
-
-      console.log(getData);
     } catch (err) {
       console.error("Failed to fetch data:", err);
     }
@@ -31,7 +28,11 @@ function GetProducts() {
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {getData?.length > 0 &&
             getData.map((items, index) => (
-              <div key={index} className="group relative">
+              <Link
+                to={`/product/${items.id}`}
+                key={index}
+                className="group relative"
+              >
                 <img
                   src={items.image}
                   className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
@@ -46,7 +47,7 @@ function GetProducts() {
                     {items.price}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
         </div>
       </div>
